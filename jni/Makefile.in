@@ -14,7 +14,6 @@
 
 @SET_MAKE@
 
-
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -89,7 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = src/emhashmap
+subdir = jni
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -97,8 +96,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(include_HEADERS) \
-	$(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
@@ -130,11 +128,11 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
+am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libemhashmap_la_LIBADD =
-am_libemhashmap_la_OBJECTS = emhashmap.lo
-libemhashmap_la_OBJECTS = $(am_libemhashmap_la_OBJECTS)
+libjavabson_la_DEPENDENCIES = ../src/libbson.la
+am_libjavabson_la_OBJECTS = bson_jni.lo
+libjavabson_la_OBJECTS = $(am_libjavabson_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -173,14 +171,13 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libemhashmap_la_SOURCES)
-DIST_SOURCES = $(libemhashmap_la_SOURCES)
+SOURCES = $(libjavabson_la_SOURCES)
+DIST_SOURCES = $(libjavabson_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-HEADERS = $(include_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -295,7 +292,7 @@ host_cpu = @host_cpu@
 host_os = @host_os@
 host_vendor = @host_vendor@
 htmldir = @htmldir@
-includedir = @includedir@/emhashmap
+includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
 libdir = @libdir@
@@ -317,11 +314,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -Wall
-AM_LDFLAGS = 
-include_HEADERS = emhashmap.h
-lib_LTLIBRARIES = libemhashmap.la
-libemhashmap_la_SOURCES = emhashmap.c
+AM_CFLAGS = -I${JNI_INCLUDE_DIR} -Wall
+lib_LTLIBRARIES = libjavabson.la
+libjavabson_la_SOURCES = bson_jni.c
+libjavabson_la_LIBADD = ../src/libbson.la
 all: all-am
 
 .SUFFIXES:
@@ -335,9 +331,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/emhashmap/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu jni/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/emhashmap/Makefile
+	  $(AUTOMAKE) --gnu jni/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -391,8 +387,8 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libemhashmap.la: $(libemhashmap_la_OBJECTS) $(libemhashmap_la_DEPENDENCIES) $(EXTRA_libemhashmap_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libemhashmap_la_OBJECTS) $(libemhashmap_la_LIBADD) $(LIBS)
+libjavabson.la: $(libjavabson_la_OBJECTS) $(libjavabson_la_DEPENDENCIES) $(EXTRA_libjavabson_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libjavabson_la_OBJECTS) $(libjavabson_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -400,7 +396,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/emhashmap.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bson_jni.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -428,27 +424,6 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-includeHEADERS: $(include_HEADERS)
-	@$(NORMAL_INSTALL)
-	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(includedir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(includedir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includedir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includedir)" || exit $$?; \
-	done
-
-uninstall-includeHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(includedir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -534,9 +509,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -592,7 +567,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-includeHEADERS
+install-data-am:
 
 install-dvi: install-dvi-am
 
@@ -638,7 +613,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES
+uninstall-am: uninstall-libLTLIBRARIES
 
 .MAKE: install-am install-strip
 
@@ -648,15 +623,13 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am \
-	install-includeHEADERS install-info install-info-am \
-	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-libLTLIBRARIES install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-includeHEADERS \
-	uninstall-libLTLIBRARIES
+	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES
 
 .PRECIOUS: Makefile
 

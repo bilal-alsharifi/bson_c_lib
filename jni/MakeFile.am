@@ -1,0 +1,5 @@
+AM_CFLAGS = -I${JNI_INCLUDE_DIR} -Wall
+
+lib_LTLIBRARIES = libjavabson.la
+libjavabson_la_SOURCES = bson_jni.c
+libjavabson_la_LIBADD = ../src/libbson.la

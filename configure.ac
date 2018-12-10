@@ -53,4 +53,26 @@ AM_CONDITIONAL(
 	[BUILD_LUA], 
 	[test x$with_lua = xyes])
 
-AC_OUTPUT(Makefile src/Makefile src/emhashmap/Makefile lua/Makefile)
+AC_ARG_WITH(
+	[java-wrapper], 
+	[AS_HELP_STRING(
+		[--with-java-wrapper], 
+		[Build Java wrapper library]
+	)], 
+	[AS_CASE(
+		${withval}, 
+		[yes], 
+		[with_java=yes], 
+		[no], 
+		[with_java=no], 
+		[AC_MSG_ERROR(
+			[invalid value (${withval}) for --with-java-wrapper]
+		)]
+	)], 
+	[with_java=no])
+
+AM_CONDITIONAL(
+	[BUILD_JAVA], 
+	[test x$with_java = xyes])
+
+AC_OUTPUT(Makefile src/Makefile src/emhashmap/Makefile lua/Makefile jni/Makefile)
