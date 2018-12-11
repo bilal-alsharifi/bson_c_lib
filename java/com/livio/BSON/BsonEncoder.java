@@ -2,18 +2,24 @@ package com.livio.BSON;
 
 import java.util.HashMap;
 import java.util.List;
-//import cz.adamh.utils.NativeUtils;
+import cz.adamh.utils.NativeUtils;
 
 public class BsonEncoder {
     private static final String libName = "javabson";
 
     static {
-        //try {
-        System.loadLibrary(libName);
-        //}
-        //catch (UnsatisfiedLinkError err) {
-        //    NativeUtils.loadLibraryFromJar("/natives/" + System.mapLibraryName(libName));
-        //}
+        try {
+          System.loadLibrary(libName);
+        }
+        catch (UnsatisfiedLinkError err) {
+          try {
+            NativeUtils.loadLibraryFromJar("/natives/" + System.mapLibraryName(libName));
+          }
+          catch (Exception ex) {
+            System.out.println("Error loading native library");
+            System.exit(1);
+          }
+        }
     }
     
     @SuppressWarnings("unchecked")
