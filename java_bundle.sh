@@ -1,3 +1,4 @@
+autoreconf -f -i
 ./configure --with-java-wrapper=yes
 make
 sudo make install
