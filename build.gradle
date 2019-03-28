@@ -27,9 +27,7 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
-assemble{
 
-}
 
 task makeJavaLib(type: Exec){
     //brew install automake
@@ -43,5 +41,8 @@ task makeJavaLib(type: Exec){
 
 }
 compileJava{
+    group 'com.livio.bson'
+    artifactId 'bson_c_lib'
+
     dependsOn makeJavaLib
 }
