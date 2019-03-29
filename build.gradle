@@ -1,4 +1,4 @@
 allprojects {
     group = 'com.livio.bson'
-    version = '1.2'
+    version = '1.0'
 }

@@ -11,8 +11,9 @@ plugins {
     id 'java-library'
 }
 
-version '1.0'
+
 group 'com.livio.bson'
+version '1.0'
 //artifactId 'bson_c_lib'
 
 repositories {
