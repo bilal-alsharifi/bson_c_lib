@@ -10,3 +10,14 @@ Makefile
 /config.*
 /libtool
 /stamp-h1
+
+
+*.iml
+*.jar
+.DS_Store
+local.properties
+.class
+.idea/
+.gradle/
+out/
+build/
