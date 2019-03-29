@@ -36,7 +36,7 @@ task makeJavaLib(type: Exec){
     ///System/Library/Frameworks/JavaVM.framework/Versions/A/Headers
 
     workingDir '../'
-    commandLine 'export', 'JNI_INCLUDE_DIR=/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers'
+    environment "JNI_INCLUDE_DIR", "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Headers"
     commandLine 'sh', './java_bundle.sh'
 
 }
